@@ -29,8 +29,9 @@ Three separate programmatic workbook assets were extracted, transformed, and loa
 
 To optimize granular calculations across transactional records, a calculated row-level matrix was added to the Customer_Data matrix. It accurately multiplies moving inventory items by baseline unit costs to verify ledger totals:
 dax
+
 Replicated_Total_Price = Customer_Data[Quantity] * Customer_Data[Price Per Unit ]
-Use code with caution.
+
 
 2. High-Performance Measures
 
@@ -40,23 +41,26 @@ Data Density Indicators
 
 Counts total record parameters logged across the dataset context:
 dax
+
 Total Rows Count = COUNTROWS(Customer_Data)
-Use code with caution.
+
 Isolates populated fields to distinguish recorded layoff metrics from unrecorded line properties:
 dax
+
 Valid Layoff Records = COUNT(Employee_Layoffs[Total_Laid_Off])
-Use code with caution.
+
 
 Custom Null Evaluation Strategy
 
 Because missing values are explicitly populated as 0 instead of standard blank systems, a contextual table override filter was deployed via CALCULATE to extract zero-values without skewing standard system averages:
 dax
+
 Missing Layoff Values = 
 CALCULATE(
     COUNTROWS(Employee_Layoffs),
     Employee_Layoffs[Total_Laid_Off] = 0
 )
-Use code with caution.
+
 
 Extreme Boundaries Analysis
 
@@ -66,23 +70,27 @@ Smallest Quantity Ordered = MIN(Customer_Data[Quantity])
 Use code with caution.
 Filters out zero-value statistical anomalies to isolate the true non-zero layoff floor:
 dax
+
 True Smallest Layoff = 
 CALCULATE(
     MIN(Employee_Layoffs[Total_Laid_Off]),
     Employee_Layoffs[Total_Laid_Off] > 0
 )
-Use code with caution.
+
+
 Finds the maximum unit pricing index noted across the transactional grid:
 dax
+
 Largest Unit Price = MAX(Customer_Data[Price Per Unit ])
-Use code with caution.
+
 
 Financial Summarization
 
 Aggregates capitalization metrics to track funding profiles:
 dax
+
 Total Funds Raised = SUM(Employee_Layoffs[Funds_Raised])
-Use code with caution.
+
 
 🚀 How to Run the Project
 
